@@ -1,0 +1,78 @@
+{{define "dashboard.html"}}<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My track days · Trackdate</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<main>
+<div class="topbar">
+<h1><a href="/app">Trackdate</a></h1>
+<form method="post" action="/logout"><button class="secondary" type="submit">Log out</button></form>
+</div>
+<p class="muted">Signed in as {{.Email}}</p>
+
+<div class="share-box">
+<div>
+<div class="muted">Share this read-only link:</div>
+<code>{{.ShareURL}}</code>
+</div>
+<form method="post" action="/app/share/regenerate" onsubmit="return confirm('Regenerate the share link? The old link will stop working.');">
+<button class="secondary" type="submit">Regenerate link</button>
+</form>
+</div>
+
+<section class="add-form">
+<h2>Add a track day</h2>
+<form method="post" action="/app/trackdays">
+<div class="fields">
+<div>
+<label for="date">Date</label>
+<input id="date" type="date" name="date" required>
+</div>
+<div>
+<label for="track">Track</label>
+<input id="track" type="text" name="track" required>
+</div>
+<div>
+<label for="organization">Organization</label>
+<input id="organization" type="text" name="organization" required>
+</div>
+<div>
+<label for="cost">Cost</label>
+<input id="cost" type="text" inputmode="decimal" name="cost" placeholder="0.00">
+</div>
+</div>
+<button type="submit">Add</button>
+</form>
+</section>
+
+{{if .TrackDays}}
+<table>
+<thead><tr><th>Date</th><th>Track</th><th>Organization</th><th>Cost</th><th></th></tr></thead>
+<tbody>
+{{range .TrackDays}}
+<tr>
+<td>{{.Date}}</td>
+<td>{{.Track}}</td>
+<td>{{.Organization}}</td>
+<td>{{.Cost}}</td>
+<td class="row-actions">
+<a href="/app/trackdays/{{.ID}}/edit">Edit</a>
+<form method="post" action="/app/trackdays/{{.ID}}/delete" onsubmit="return confirm('Delete this track day?');">
+<button class="danger" type="submit">Delete</button>
+</form>
+</td>
+</tr>
+{{end}}
+</tbody>
+</table>
+{{else}}
+<p class="muted">No track days yet.</p>
+{{end}}
+</main>
+</body>
+</html>
+{{end}}

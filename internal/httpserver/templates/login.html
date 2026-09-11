@@ -1,0 +1,22 @@
+{{define "login.html"}}<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trackdate</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<main>
+<h1>Trackdate</h1>
+<p class="lede">Sign in with your email. We'll send you a one-time link — no password.</p>
+{{if .Error}}<p class="error">{{.Error}}</p>{{end}}
+<form class="stack" method="post" action="/login">
+<label for="email">Email</label>
+<input id="email" type="email" name="email" required autofocus>
+<button type="submit">Send sign-in link</button>
+</form>
+</main>
+</body>
+</html>
+{{end}}
